@@ -12,7 +12,13 @@ None of the three is trained. RapidFuzz cutoff is 94. M3 calls a pair compatible
 
 This is not medical advice. The four people are fake.
 
-AI on this repo: Claude helped with parser and eval scripts. I wrote the labels, lexicon tags, and penalty table.
+## AI disclosure
+
+I used Claude to help me map out the project and figure out how this GitHub repo should be organized (folders, README sections, what had to be public). I also used it when I got stuck structuring the parser and the evaluation scripts. I wrote the labels, the lexicon tags, and the scoring rules. I recorded the demo in my own voice. I did not use AI to write or polish the paper.
+
+## Demo video
+
+Recorded paper review and live demo: https://youtu.be/l9Ak-LmXw6Y
 
 ## What is in the repo
 
@@ -34,38 +40,3 @@ CPU only. Linux. Python 3.12.3. No GPU. No API keys.
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-```
-
-## Repeat Table II
-
-```bash
-PYTHONPATH=. python3 -m skinsync.evaluate_final
-```
-
-Holdout should print:
-
-```
-Table II  holdout unsafe precision / recall / F1  (n=19, 3 unsafe)
-M1 Keyword             P=0.286  R=0.667  F1=0.400  acc=0.684  correct=13/19
-M2 Blind lexicon       P=0.300  R=1.000  F1=0.462  acc=0.632  correct=12/19
-M3 Profile-aware       P=0.750  R=1.000  F1=0.857  acc=0.947  correct=18/19
-```
-
-The holdout has 16 compatible pairs and 3 incompatible pairs.
-
-```bash
-PYTHONPATH=. python3 -m pytest
-```
-
-## Demo
-
-```bash
-PYTHONPATH=. python3 -m skinsync prepare
-PYTHONPATH=. python3 -m skinsync
-```
-
-Open http://127.0.0.1:43173. Speaking outline: `demo/SCRIPT.md`. Record in your own voice. Do not use TTS.
-
-## Paper
-
-IEEE SoutheastCon 2027 regular paper. `paper/skinsync_southeastcon.tex`. Compiled PDF: `reports/Okoro_Amaka_COMP365_Final.pdf`. Overleaf upload zip: `submission/Okoro_Amaka_COMP365_Overleaf.zip`.
