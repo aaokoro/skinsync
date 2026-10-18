@@ -1,0 +1,230 @@
+{
+  "n_dev": 35,
+  "n_holdout": 19,
+  "n_all": 54,
+  "dev": {
+    "baseline": {
+      "method": "keyword_baseline",
+      "accuracy": 0.829,
+      "n_correct": 29,
+      "unsafe_precision": 0.7,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.824,
+      "n": 35
+    },
+    "blind": {
+      "method": "profile_blind_lexicon",
+      "accuracy": 0.829,
+      "n_correct": 29,
+      "unsafe_precision": 0.7,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.824,
+      "n": 35
+    },
+    "fuzzy": {
+      "method": "fuzzy_profile",
+      "accuracy": 1.0,
+      "n_correct": 35,
+      "unsafe_precision": 1.0,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 1.0,
+      "n": 35
+    }
+  },
+  "holdout": {
+    "baseline": {
+      "method": "keyword_baseline",
+      "accuracy": 0.684,
+      "n_correct": 13,
+      "unsafe_precision": 0.286,
+      "unsafe_recall": 0.667,
+      "unsafe_f1": 0.4,
+      "n": 19
+    },
+    "blind": {
+      "method": "profile_blind_lexicon",
+      "accuracy": 0.632,
+      "n_correct": 12,
+      "unsafe_precision": 0.3,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.462,
+      "n": 19
+    },
+    "fuzzy": {
+      "method": "fuzzy_profile",
+      "accuracy": 0.947,
+      "n_correct": 18,
+      "unsafe_precision": 0.75,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.857,
+      "n": 19
+    }
+  },
+  "all": {
+    "baseline": {
+      "method": "keyword_baseline",
+      "accuracy": 0.778,
+      "n_correct": 42,
+      "unsafe_precision": 0.593,
+      "unsafe_recall": 0.941,
+      "unsafe_f1": 0.727,
+      "n": 54
+    },
+    "blind": {
+      "method": "profile_blind_lexicon",
+      "accuracy": 0.759,
+      "n_correct": 41,
+      "unsafe_precision": 0.567,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.723,
+      "n": 54
+    },
+    "fuzzy": {
+      "method": "fuzzy_profile",
+      "accuracy": 0.981,
+      "n_correct": 53,
+      "unsafe_precision": 0.944,
+      "unsafe_recall": 1.0,
+      "unsafe_f1": 0.971,
+      "n": 54
+    }
+  },
+  "holdout_errors": [
+    {
+      "split": "holdout",
+      "profile": "Maya",
+      "product": "Daily Moisturizing Lotion",
+      "gold": 1,
+      "baseline": 1,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 65,
+      "fuzzy_verdict": "use with caution",
+      "fuzzy_flags": [
+        "benzyl alcohol"
+      ],
+      "blind_hits": [
+        "isopropyl palmitate",
+        "benzyl alcohol"
+      ],
+      "why": "classic drugstore lotion for dry skin, I'd still try it"
+    }
+  ],
+  "high_score_unsafe": [
+    {
+      "split": "all",
+      "profile": "Maya",
+      "product": "0.5% Retinol Night Serum",
+      "gold": 0,
+      "baseline": 0,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 86,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "retinol"
+      ],
+      "blind_hits": [
+        "retinol"
+      ],
+      "why": "Retinol too aggressive for currently reactive skin"
+    },
+    {
+      "split": "all",
+      "profile": "Maya",
+      "product": "Skin Perfecting 2% BHA Liquid Exfoliant",
+      "gold": 0,
+      "baseline": 0,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 78,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "salicylic acid"
+      ],
+      "blind_hits": [
+        "salicylic acid"
+      ],
+      "why": "Leave-on BHA stings a compromised barrier"
+    },
+    {
+      "split": "all",
+      "profile": "Jordan",
+      "product": "Sweet Almond Night Cream",
+      "gold": 0,
+      "baseline": 0,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 79,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "prunus amygdalus dulcis oil"
+      ],
+      "blind_hits": [
+        "prunus amygdalus dulcis oil",
+        "parfum",
+        "hexyl cinnamal",
+        "benzyl salicylate"
+      ],
+      "why": "Almond oil plus fragrance"
+    },
+    {
+      "split": "all",
+      "profile": "Priya",
+      "product": "Deep Moisture Body Lotion (messy OCR-style INCI)",
+      "gold": 0,
+      "baseline": 0,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 78,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "glycine soja oil"
+      ],
+      "blind_hits": [
+        "paraffinum liquidum",
+        "isopropyl myristate",
+        "parfum",
+        "benzyl salicylate"
+      ],
+      "why": "Soybean oil"
+    },
+    {
+      "split": "all",
+      "profile": "Maya",
+      "product": "Regenerist Micro-Sculpting Cream",
+      "gold": 0,
+      "baseline": 0,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 73,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "parfum"
+      ],
+      "blind_hits": [
+        "parfum"
+      ],
+      "why": "has fragrance"
+    },
+    {
+      "split": "all",
+      "profile": "Jordan",
+      "product": "Daily Moisturizing Lotion",
+      "gold": 0,
+      "baseline": 1,
+      "blind": 0,
+      "fuzzy": 0,
+      "fuzzy_score": 73,
+      "fuzzy_verdict": "good match",
+      "fuzzy_flags": [
+        "isopropyl palmitate"
+      ],
+      "blind_hits": [
+        "isopropyl palmitate",
+        "benzyl alcohol"
+      ],
+      "why": "isopropyl palmitate is comedogenic"
+    }
+  ]
+}

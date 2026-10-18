@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkinSync — ingredient compatibility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,620&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c241c;
+      --muted: #5c6759;
+      --paper: #f4efe6;
+      --card: #fffdf8;
+      --line: #ddd4c6;
+      --sage: #2f6f4e;
+      --sage-soft: #e4f0e7;
+      --clay: #9a4f32;
+      --clay-soft: #f7e6de;
+      --gold: #c4a35a;
+      --shadow: 0 12px 40px rgba(40, 36, 28, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: "Source Sans 3", sans-serif; }
+    body { min-height: 100vh; }
+    header {
+      padding: 28px 8vw 12px;
+      display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: end;
+    }
+    .mark { font-family: Fraunces, serif; font-size: 32px; letter-spacing: -0.03em; margin: 0; }
+    .mark span { color: var(--sage); }
+    .lede { max-width: 640px; color: var(--muted); margin: 6px 0 0; line-height: 1.45; }
+    .pill {
+      border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+      padding: 8px 14px; font-size: 13px; color: var(--muted);
+    }
+    main { padding: 12px 8vw 64px; display: grid; grid-template-columns: 340px 1fr; gap: 22px; }
+    @media (max-width: 920px) { main { grid-template-columns: 1fr; padding: 12px 5vw 48px; } }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 18px; }
+    h2 { font-family: Fraunces, serif; font-size: 20px; margin: 0 0 12px; }
+    label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 12px 0 6px; }
+    select, input[type="text"], textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px;
+      font: inherit; background: #fff; color: var(--ink);
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: 13px;
+      background: #fff; cursor: pointer; user-select: none;
+    }
+    .chip.on { background: var(--sage-soft); border-color: #b7d0bf; color: var(--sage); font-weight: 600; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    button {
+      border: 0; border-radius: 999px; padding: 10px 16px; font: inherit; font-weight: 600; cursor: pointer;
+    }
+    .primary { background: var(--sage); color: white; }
+    .ghost { background: #efe8db; color: var(--ink); }
+    .toolbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .toggle { display: flex; background: #efe8db; border-radius: 999px; padding: 4px; }
+    .toggle button { background: transparent; color: var(--muted); padding: 7px 12px; }
+    .toggle button.on { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 720px) { .metrics { grid-template-columns: 1fr 1fr; } }
+    .metric { border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; background: #fff; }
+    .metric b { display: block; font-family: Fraunces, serif; font-size: 22px; }
+    .metric span { color: var(--muted); font-size: 12px; }
+    .list { display: flex; flex-direction: column; gap: 10px; }
+    .item {
+      border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid;
+      grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; cursor: pointer; background: #fff;
+    }
+    .item:hover { border-color: #c9dccf; }
+    .score {
+      width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+      font-family: Fraunces, serif; font-size: 20px; background: var(--sage-soft); color: var(--sage);
+    }
+    .score.mid { background: #f4ead2; color: #8a6a22; }
+    .score.low { background: var(--clay-soft); color: var(--clay); }
+    .name { font-weight: 700; }
+    .brand { color: var(--muted); font-size: 13px; }
+    .flags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .flag { font-size: 11px; border-radius: 999px; padding: 3px 8px; background: var(--clay-soft); color: var(--clay); }
+    .flag.ok { background: var(--sage-soft); color: var(--sage); }
+    .empty, .error { color: var(--muted); padding: 20px 4px; }
+    dialog { border: 0; border-radius: 22px; padding: 0; max-width: 640px; width: calc(100% - 24px); }
+    dialog::backdrop { background: rgba(28,36,28,.35); }
+    .sheet { padding: 22px; }
+    .ing { font-size: 13px; line-height: 1.55; color: var(--muted); }
+    footer { padding: 0 8vw 40px; color: var(--muted); font-size: 13px; }
+    a { color: var(--sage); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <p class="mark">Skin<span>Sync</span></p>
+      <p class="lede">Score a product against a skin profile using parsed INCI lists, a keyword baseline, and a first-pass multi-criteria matcher. Educational COMP365 prototype — not medical advice.</p>
+    </div>
+    <div class="pill" id="catalog-pill">Loading catalog…</div>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Skin profile</h2>
+      <label>Saved test profile</label>
+      <select id="profile-select"></select>
+      <p id="profile-notes" class="lede" style="font-size:14px"></p>
+      <label>Skin type</label>
+      <select id="skin-type">
+        <option>dry</option><option>oily</option><option>combination</option><option>sensitive</option><option>normal</option>
+      </select>
+      <label>Concerns</label>
+      <div class="chips" id="concerns"></div>
+      <label>Sensitivities</label>
+      <div class="chips" id="sensitivities"></div>
+      <div class="row">
+        <button class="primary" id="rank-btn">Rank catalog</button>
+        <button class="ghost" id="paste-btn">Score pasted INCI</button>
+      </div>
+      <label style="margin-top:16px">Paste a raw ingredient list</label>
+      <textarea id="inci" rows="5" placeholder="Aqua, Glycerin, Parfum, Linalool…"></textarea>
+    </section>
+    <section>
+      <div class="toolbar">
+        <div class="toggle" id="method">
+          <button data-method="multi" class="on">Multi-criteria</button>
+          <button data-method="baseline">Keyword baseline</button>
+        </div>
+        <span id="status" class="pill">Waiting for a profile</span>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <div class="list" id="results"></div>
+    </section>
+  </main>
+  <footer>
+    Data: Open Beauty Facts search API (public) plus curated public labels. Libraries: FastAPI, Pandas-compatible JSON catalog, scikit-learn metrics, RapidFuzz. Checkpoint report: <code>reports/COMP365_IP_Practical_Checkpoint_1.pdf</code>
+  </footer>
+  <dialog id="sheet">
+    <div class="sheet">
+      <h2 id="sheet-title"></h2>
+      <p id="sheet-meta" class="lede"></p>
+      <div id="sheet-flags" class="flags"></div>
+      <p class="ing" id="sheet-ings"></p>
+      <div class="row"><button class="ghost" id="close-sheet">Close</button></div>
+    </div>
+  </dialog>
+  <script>
+    const CONCERNS = ["irritation","dryness","sensitivity","acne","aging","hyperpigmentation"];
+    const SENS = ["fragrance","alcohol","essential_oils","sulfates","retinoids","acids","tree_nuts","soy","gluten","sesame","parabens"];
+    let profiles = [];
+    let method = "multi";
+    let currentProfile = null;
+    let lastRows = [];
+
+    const $ = (id) => document.getElementById(id);
+
+    function chips(el, items, selected) {
+      el.innerHTML = "";
+      items.forEach(item => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (selected.includes(item) ? " on" : "");
+        b.textContent = item.replaceAll("_"," ");
+        b.onclick = () => { b.classList.toggle("on"); };
+        el.appendChild(b);
+      });
+    }
+    function selected(el) {
+      return [...el.querySelectorAll(".chip.on")].map(n => n.textContent.replaceAll(" ","_"));
+    }
+    function profileFromForm() {
+      const saved = profiles.find(p => p.id === $("profile-select").value);
+      return {
+        id: saved ? saved.id : "custom",
+        name: saved ? saved.name : "Custom",
+        skin_type: $("skin-type").value,
+        concerns: selected($("concerns")),
+        sensitivities: selected($("sensitivities")),
+        notes: saved ? saved.notes : ""
+      };
+    }
+    function applyProfile(p) {
+      currentProfile = p;
+      $("skin-type").value = p.skin_type;
+      $("profile-notes").textContent = p.notes || "";
+      chips($("concerns"), CONCERNS, p.concerns || []);
+      chips($("sensitivities"), SENS, p.sensitivities || []);
+    }
+    function scoreClass(score) {
+      if (score >= 75) return "score";
+      if (score >= 55) return "score mid";
+      return "score low";
+    }
+    function renderRows(rows) {
+      lastRows = rows;
+      const root = $("results");
+      if (!rows.length) { root.innerHTML = "<p class='empty'>No ranked products yet.</p>"; return; }
+      root.innerHTML = "";
+      rows.forEach(r => {
+        const div = document.createElement("div");
+        div.className = "item";
+        const flags = (r.flags || []).slice(0,4).map(f => {
+          const label = (f.matched || f.ingredient || "").toString();
+          return `<span class="flag">${label}</span>`;
+        }).join("");
+        div.innerHTML = `
+          <div class="${scoreClass(r.score)}">${r.score}</div>
+          <div>
+            <div class="name">${r.name}</div>
+            <div class="brand">${r.brand || ""} · ${r.verdict}${r.source ? " · " + r.source : ""}</div>
+            <div class="flags">${flags || '<span class="flag ok">no profile flags</span>'}</div>
+          </div>
+          <div class="brand">${r.compatible ? "keep" : "skip"}</div>`;
+        div.onclick = () => openSheet(r);
+        root.appendChild(div);
+      });
+    }
+    async function openSheet(r) {
+      const res = await fetch("/api/score", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ product_id: r.id, profile: profileFromForm(), method })
+      });
+      const data = await res.json();
+      $("sheet-title").textContent = r.name;
+      const result = data.result;
+      $("sheet-meta").textContent = `${r.brand || ""} · ${result.verdict} · score ${result.score}`;
+      $("sheet-flags").innerHTML = (result.flags || result.hits || []).slice(0,8).map(f => {
+        if (typeof f === "string") return `<span class="flag">${f}</span>`;
+        return `<span class="flag">${f.matched || f.ingredient}</span>`;
+      }).join("") || "<span class='flag ok'>clean vs this profile</span>";
+      $("sheet-ings").textContent = data.product?.ingredients_raw || "";
+      $("sheet").showModal();
+    }
+    async function rank() {
+      $("status").textContent = "Scoring catalog…";
+      const body = { profile: profileFromForm(), method, limit: 14 };
+      const res = await fetch("/api/rank", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)});
+      const data = await res.json();
+      $("status").textContent = `${data.catalog_size} products scored · showing curated labels first`;
+      renderRows(data.results);
+    }
+    async function scorePaste() {
+      const ingredients = $("inci").value.trim();
+      if (!ingredients) { $("inci").focus(); return; }
+      const res = await fetch("/api/score", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ ingredients, profile: profileFromForm(), method })
+      });
+      const data = await res.json();
+      const r = data.result;
+      renderRows([{
+        id: null, name: "Pasted ingredient list", brand: "Custom input",
+        score: r.score, verdict: r.verdict, compatible: r.compatible, flags: r.flags || r.hits, source: "paste"
+      }]);
+      $("status").textContent = `Pasted list · ${r.verdict}`;
+    }
+    function renderMetrics(payload) {
+      const m = payload?.evaluation?.user_matching;
+      if (!m) return;
+      const pick = method === "baseline" ? m.baseline : m.multi_criteria;
+      $("metrics").innerHTML = [
+        ["Unsafe F1", pick.unsafe_f1],
+        ["Unsafe precision", pick.unsafe_precision],
+        ["Unsafe recall", pick.unsafe_recall],
+        ["Label accuracy", pick.label_accuracy]
+      ].map(([k,v]) => `<div class="metric"><b>${Number(v).toFixed(2)}</b><span>${k} · ${method}</span></div>`).join("");
+    }
+
+    $("method").onclick = (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      method = btn.dataset.method;
+      [...$("method").children].forEach(b => b.classList.toggle("on", b === btn));
+      rank();
+      fetch("/api/results").then(r => r.json()).then(renderMetrics);
+    };
+    $("profile-select").onchange = () => {
+      const p = profiles.find(x => x.id === $("profile-select").value);
+      if (p) applyProfile(p);
+    };
+    $("rank-btn").onclick = rank;
+    $("paste-btn").onclick = scorePaste;
+    $("close-sheet").onclick = () => $("sheet").close();
+
+    Promise.all([
+      fetch("/api/profiles").then(r => r.json()),
+      fetch("/api/results").then(r => r.json()),
+      fetch("/api/health").then(r => r.json())
+    ]).then(([p, results]) => {
+      profiles = p;
+      $("profile-select").innerHTML = p.map(x => `<option value="${x.id}">${x.name} · ${x.skin_type}</option>`).join("");
+      applyProfile(p[0]);
+      const cat = results.catalog || {};
+      $("catalog-pill").textContent = `${cat.products || "?"} products · ${cat.ingredient_rows || "?"} parsed ingredients`;
+      renderMetrics(results);
+      rank();
+    }).catch(err => {
+      $("catalog-pill").textContent = "Catalog not built";
+      $("results").innerHTML = `<p class="error">${err}</p>`;
+    });
+  </script>
+</body>
+</html>

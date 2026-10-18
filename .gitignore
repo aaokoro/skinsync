@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+.python-version
+
+# Node leftovers
+/node_modules
+/.next/
+/out/
+/coverage
+.vercel
+*.tsbuildinfo
+
+# Env and local
+.env*
+.DS_Store
+*.pem
+*.zip
+!submission/*.zip
+uploads/
+results/figures/report_page_*.png
+results/figures/cp2_report_page_*.png
